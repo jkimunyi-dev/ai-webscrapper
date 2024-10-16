@@ -1,1 +1,4 @@
 /ai-webscrapper
+chromedriver
+/__pycache__
+text.md
