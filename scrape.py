@@ -26,3 +26,23 @@ def custon_webscrapper(website):
 # Bright Data
 
 
+SBR_WEBDRIVER = 'https://brd-customer-hl_b7c1c997-zone-ai_scrapper:2g1s9v0nulmc@brd.superproxy.io:9515'
+
+
+def scrape_website_with_brightdata(website):
+    
+    print('Connecting to Scraping Browser...')
+    sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, 'goog', 'chrome')
+    with Remote(sbr_connection, options=ChromeOptions()) as driver:
+        driver.get(website)
+       
+        # CAPTCHA handling: If you're expecting a CAPTCHA on the target page, use the following code snippet to check the status of Scraping Browser's automatic CAPTCHA solver
+        print('Waiting captcha to solve...')
+        solve_res = driver.execute('executeCdpCommand', {
+            'cmd': 'Captcha.waitForSolve',
+            'params': {'detectTimeout': 10000},
+        })
+        print('Captcha solve status:', solve_res['value']['status'])
+        print('Navigated! Scraping page content...')
+        html = driver.page_source
+        print(html)
